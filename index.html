@@ -2,10 +2,62 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css" />
-    <title>My Portfolio</title>
+    <title>Randres</title>
   </head>
   <body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
+    <div class="container">
+      <img src="profile.jpg" alt="Profile" class="profile-img" />
+      <h1>Lost Train Studio</h1>
+      <p>Game studio</p>
+      <div class="button-group">
+        <a href="#portfolio" class="rounded-btn" title="">Portfolio</a>
+        <a href="#contact" class="rounded-btn">Contact</a>
+        <a href="#about" class="rounded-btn">About me</a>
+        <!--<a
+          href="https://github.com/randresho"
+          class="rounded-btn"
+          target="_blank"
+          >GitHub</a
+        >-->
+      </div>
+    </div>
+    <div class="section" id="portfolio">
+      <h2>Portfolio</h2>
+      <p>Check out my latest projects and games.</p>
+    </div>
+    <div class="portfolio-group">
+      <!-- Game Title -->
+      <a href="https://yourgame.link" class="portfolio-card" title="Game Title">
+        <img src="game1.jpg" alt="Image name" class="card-img" />
+        <div class="card-icons">
+          <!--Add the images you need-->
+          <img src="html5-icon.png" alt="HTML5" class="icon" />
+          <img src="unity-icon.png" alt="UNITY" class="icon" />
+        </div>
+        <div class="card-overlay">
+          <div class="card-title">Button Test</div>
+        </div>
+      </a>
+      <!-- Repeat for other games -->
+    </div>
+    <div class="section" id="about">
+      <h2>About Me</h2>
+      <p>
+        <!--I am a passionate web developer with a focus on creating engaging and
+        interactive web experiences. I love working with HTML, CSS, and
+        JavaScript to bring ideas to life.-->
+      </p>
+    </div>
+    -->
+    <div class="section" id="contact">
+      <h2>Contact</h2>
+      <!--<p>Feel free to reach out for collaborations or inquiries.</p>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>-->
+    </div>
   </body>
 </html>
