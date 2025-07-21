@@ -39,15 +39,6 @@ body {
   background: #1a1a2e;
 }
 
-body.ios-fix #unity-container {
-  width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-
 /* For devices smaller than game dimensions, scale proportionally */
 @media (max-width: 1280px), (max-height: 720px) {
   #unity-container {
@@ -70,12 +61,6 @@ body.ios-fix #unity-container {
   display: block;
   background: var(--loading-bg-color) !important;
   background-image: none !important;
-}
-
-body.ios-fix canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
 }
 
 /* Enhanced Loading screen styles */
