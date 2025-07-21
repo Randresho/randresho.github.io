@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>Diviértete con Sabi</title>
+    <link rel="shortcut icon" href="Personalizado/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
+  </head>
+  <body class="dark">
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas"></canvas>
+    </div>
+
+    <!-- Unity Default Loading Bar (Hidden) -->
+    <div id="unity-loading-bar" style="display: none">
+      <div id="custom-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="cu"></div>
+      </div>
+    </div>
+
+    <!-- Enhanced Loading Screen -->
+    <div id="loading-cover">
+      <div id="custom-logo">
+        <img src="Personalizado/Logo.png" alt="Game Logo" />
+      </div>
+      <div id="custom-progress-bar-empty">
+        <div id="custom-progress-bar-full"></div>
+        <div class="progress-percentage">0%</div>
+      </div>
+      <div class="loading-text">Cargando...</div>
+      <div class="spinner"></div>
+    </div>
+
+    <div class="fullscreen-controls">
+      <button id="fullscreen-btn" class="fullscreen-btn" title="Full Screen">
+        ⛶
+      </button>
+      <button
+        id="exit-fullscreen-btn" class="fullscreen-btn" style="display: none" title="Salir de pantalla completa">
+        ⛷
+      </button>
+    </div>
+
+    <div id="orientation-message" class="orientation-message"">
+      <div class="rotation-icon">📱</div>
+      <h2>Rotate your phone</h2>
+      <p>for a better experience, use the horizontal mode</p>
+    </div>
+    <!--<div id="unity-fullscreen-button" style="display: none"></div>-->
+
+    <script>
+            const hideFullScreenButton = "";
+            const buildUrl = "Build";
+            const loaderUrl = buildUrl + "/DivierteteConSabi.loader.js";
+            const config = {
+              dataUrl: buildUrl + "/DivierteteConSabi.data.gz",
+              frameworkUrl: buildUrl + "/DivierteteConSabi.framework.js.gz",
+              codeUrl: buildUrl + "/DivierteteConSabi.wasm.gz",
+              streamingAssetsUrl: "StreamingAssets",
+              companyName: "Realidad Virutal Honduras",
+              productName: "Diviértete con Sabi",
+              productVersion: "0.3.0",
+            };
+
+            const container = document.querySelector("#unity-container");
+            const canvas = document.querySelector("#unity-canvas");
+            const loadingCover = document.querySelector("#loading-cover");
+            const progressBarEmpty = document.querySelector("#custom-progress-bar-empty");
+            const progressBarFull = document.querySelector("#custom-progress-bar-full");
+            const progressPercentage = document.querySelector(".progress-percentage");
+            const fullscreenBtn = document.querySelector("#fullscreen-btn");
+            const exitFullscreenBtn = document.querySelector("#exit-fullscreen-btn");
+            const fullscreenControls = document.querySelector(".fullscreen-controls");
+            const orientationMessage = document.querySelector("#orientation-message");
+            const spinner = document.querySelector('.spinner');
+            const loadingText = document.querySelector('.loading-text');
+
+            let isFullscreen = false;
+
+            // Hide Unity's default loading bar
+            const unityLoadingBar = document.querySelector("#unity-loading-bar");
+            if (unityLoadingBar) {
+              unityLoadingBar.style.display = "none";
+            }
+
+            // Device detection
+            function isAndroid() {
+              return /Android/i.test(navigator.userAgent);
+            }
+
+            function isIOS() {
+              return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            }
+
+            function isMobileDevice() {
+              return isAndroid() || isIOS() || /Mobile|mini|Fennec|iP(ad|od|hone)/.test(navigator.userAgent);
+            }
+
+            const canFullscreen = (function() {
+              for (const key of [
+                  'exitFullscreen',
+                  'webkitExitFullscreen',
+                  'webkitCancelFullScreen',
+                  'mozCancelFullScreen',
+                  'msExitFullscreen',
+                ]) {
+                if (key in document) {
+                  return true;
+                }
+              }
+              return false;
+            }());
+
+            function enterFullscreen() {
+              const element = document.documentElement;
+              if (element.requestFullscreen) {
+                element.requestFullscreen();
+              } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+              } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+              } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+              }
+            }
+
+            function exitFullscreen() {
+              if (document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+              } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+              }
+            }
+
+            function updateFullscreenButtons() {
+              const isCurrentlyFullscreen = !!(document.fullscreenElement || 
+                                              document.webkitFullscreenElement || 
+                                              document.mozFullScreenElement || 
+                                              document.msFullscreenElement);
+              
+              isFullscreen = isCurrentlyFullscreen;
+              
+              if (isFullscreen) {
+                fullscreenBtn.style.display = "none";
+                exitFullscreenBtn.style.display = "flex";
+              } else {
+                fullscreenBtn.style.display = "flex";
+                exitFullscreenBtn.style.display = "none";
+              }
+            }
+
+            // Check orientation for mobile devices
+            function checkOrientation() {
+              if (isMobileDevice() && isFullscreen) {
+                const isPortrait = window.innerHeight > window.innerWidth;
+                if (isPortrait) {
+                  orientationMessage.classList.add('show');
+                } else {
+                  orientationMessage.classList.remove('show');
+                }
+              } else {
+                orientationMessage.classList.remove('show');
+              }
+            }
+
+            // Event listeners for fullscreen changes
+            document.addEventListener('fullscreenchange', updateFullscreenButtons);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenButtons);
+            document.addEventListener('mozfullscreenchange', updateFullscreenButtons);
+            document.addEventListener('MSFullscreenChange', updateFullscreenButtons);
+
+            // Event listeners for orientation changes
+            window.addEventListener('orientationchange', () => {
+              setTimeout(checkOrientation, 100);
+            });
+            window.addEventListener('resize', checkOrientation);
+
+            // Fullscreen button events
+            if (canFullscreen && !hideFullScreenButton) {
+              fullscreenBtn.addEventListener('click', () => {
+                enterFullscreen();
+              });
+
+              exitFullscreenBtn.addEventListener('click', () => {
+                exitFullscreen();
+              });
+
+              // Show controls for non-Android devices
+              if (!isAndroid()) {
+                fullscreenControls.style.display = 'flex';
+              }
+            }
+
+            function resizeCanvas() {
+              // The CSS handles the responsive sizing, so we just need to set the canvas resolution
+              const rect = container.getBoundingClientRect();
+              const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+              
+              canvas.width = rect.width * pixelRatio;
+              canvas.height = rect.height * pixelRatio;
+              
+              config.devicePixelRatio = pixelRatio;
+            }
+
+            // Initial setup
+            resizeCanvas();
+
+            // Handle viewport changes
+            function handleViewportChange() {
+              setTimeout(() => {
+                resizeCanvas();
+                checkOrientation();
+              }, 150);
+            }
+
+            window.addEventListener('resize', handleViewportChange);
+            window.addEventListener('orientationchange', handleViewportChange);
+
+            if (window.visualViewport) {
+              window.visualViewport.addEventListener('resize', handleViewportChange);
+            }
+
+            function isIOS() {
+              return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            }
+
+            if(isIOS())
+            {
+              document.body.classList.add('ios-fix');
+            }
+
+            if(isIOS())
+            {
+              function fixVh()
+              {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+              }
+
+              window.addEventListener('resize', fixVh);
+              fixVh();
+            }
+
+
+            // Enhanced mobile detection
+            /*function isMobileDevice() {
+              const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+              if (/android/i.test(userAgent)) return true;
+              if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return true;
+              if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) return true;
+              if (/Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(userAgent)) return true;
+
+              return false;
+            }*/
+
+            // Function to get viewport dimensions
+            /*function getViewportDimensions() {
+              const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+              const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+              if (window.visualViewport) {
+                return {
+                  width: window.visualViewport.width,
+                  height: window.visualViewport.height
+                };
+              }
+
+              return { width: vw, height: vh };
+            }*/
+
+            // Function to resize canvas
+            /*function resizeCanvas() {
+              if (isMobileDevice()) {
+                container.className = "unity-mobile";
+
+                const viewport = getViewportDimensions();
+
+                container.style.width = "100vw";
+                container.style.height = "100vh";
+
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+                canvas.style.position = "absolute";
+                canvas.style.top = "0";
+                canvas.style.left = "0";
+
+                canvas.width = viewport.width * (window.devicePixelRatio || 1);
+                canvas.height = viewport.height * (window.devicePixelRatio || 1);
+
+                config.devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+              } else {
+                canvas.style.width = "1280px";
+                canvas.style.height = "720px";
+                canvas.style.position = "relative";
+              }
+            }
+
+            // Initial setup
+            resizeCanvas();
+
+            // Handle viewport changes
+            function handleViewportChange() {
+              setTimeout(() => {
+                resizeCanvas();
+                if (window.unityInstance) {
+                  const viewport = getViewportDimensions();
+                  canvas.width = viewport.width * (window.devicePixelRatio || 1);
+                  canvas.height = viewport.height * (window.devicePixelRatio || 1);
+                }
+              }, 150);
+            }
+
+            window.addEventListener('resize', handleViewportChange);
+            window.addEventListener('orientationchange', handleViewportChange);
+
+            if (window.visualViewport) {
+              window.visualViewport.addEventListener('resize', handleViewportChange);
+            }
+
+            // iOS fullscreen handling
+            if (isMobileDevice() && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+              document.addEventListener('touchstart', function enableFullscreen() {
+                document.removeEventListener('touchstart', enableFullscreen);
+                if (canvas.requestFullscreen) {
+                  canvas.requestFullscreen();
+                } else if (canvas.webkitRequestFullscreen) {
+                  canvas.webkitRequestFullscreen();
+                }
+              }, { once: true });
+            }*/
+
+
+            // Show loading screen
+            loadingCover.style.display = "flex";
+
+            // Hide Unity's default background if it exists
+            if (canvas.style.backgroundImage) {
+              canvas.style.backgroundImage = 'none';
+            }
+
+            const script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = () => {
+              createUnityInstance(canvas, config, (progress) => {
+                // Hide spinner and show progress bar
+                spinner.style.display = "none";
+                progressBarEmpty.style.display = "block";
+
+                const percentage = Math.round(100 * progress);
+                progressBarFull.style.width = `${percentage}%`;
+                progressPercentage.textContent = `${percentage}%`;
+
+                // Update loading text with percentage
+                loadingText.textContent = `Cargando... ${percentage}%`;
+
+                // Add some dynamic text based on progress
+                if (percentage < 30) {
+                  loadingText.textContent = "Iniciando juego...";
+                } else if (percentage < 60) {
+                  loadingText.textContent = "Cargando recursos...";
+                } else if (percentage < 90) {
+                  loadingText.textContent = "Preparando experiencia...";
+                   } else if (percentage < 99) {
+                  loadingText.textContent = "¡Casi listo!";
+                } else {
+                  loadingText.textContent = "¡Completado!";
+                }
+              }).then((unityInstance) => {
+                // Smooth fade out of loading screen
+                loadingCover.classList.add('fade-out');
+
+                setTimeout(() => {
+                  loadingCover.style.display = "none";
+                }, 500);
+
+                // Setup fullscreen button
+                if (canFullscreen) {
+                  if (!hideFullScreenButton) {
+                    fullscreenButton.style.display = "flex";
+                  }
+                  fullscreenButton.onclick = () => {
+                    unityInstance.SetFullscreen(1);
+                  };
+                }
+
+                window.unityInstance = unityInstance;
+
+              }).catch((message) => {
+                console.error("Unity loading error:", message);
+                loadingText.textContent = "Error al cargar el juego";
+                loadingText.style.color = "#ff6b6b";
+                spinner.style.display = "none";
+              });
+            };
+
+            script.onerror = () => {
+              console.error("Failed to load Unity loader script");
+              loadingText.textContent = "Error al cargar el juego";
+              loadingText.style.color = "#ff6b6b";
+              spinner.style.display = "none";
+            };
+
+            document.body.appendChild(script);
+
+            function FixInputOnSubmit() {
+              const fixInput = document.getElementById("fixInput");
+              if (fixInput) {
+                fixInput.blur();
+              }
+              if (event && event.preventDefault) {
+                event.preventDefault();
+              }
+            }
+    </script>
+  </body>
+</html>
