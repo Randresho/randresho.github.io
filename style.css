@@ -59,7 +59,7 @@ p {
 }
 
 .rounded-btn:hover {
-  background-color: #45a049;
+  background-color: #dd8055;
 }
 
 .portfolio-group {
@@ -127,22 +127,42 @@ p {
   background: #fff;
   border-radius: 8px;
   padding: 2px;
+  object-fit: contain;
+  display: block;
+  box-sizing: border-box;
+}
+
+.card-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  z-index: 2;
+  transition: all 0.3s ease;
 }
 
 .card-title {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  right: 0;
-  padding: center;
   color: #fff;
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+  padding: center;
   text-shadow: 1px 1px 4px #000;
   z-index: 2;
+}
 
-  transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.card-description {
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .card-title-overlay {
@@ -165,6 +185,10 @@ p {
   pointer-events: none;
 }
 
+.portfolio-card:hover .card-container {
+  justify-content: center;
+}
+
 .portfolio-card:hover .card-overlay {
   opacity: 1;
   pointer-events: auto;
@@ -173,14 +197,20 @@ p {
 .portfolio-card:hover .card-title {
   color: #55b4ac;
   background: transparent;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
   font-size: 1.5em;
+  /*top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;*/
 }
 
 .portfolio-card:hover .card-img {
+  filter: brightness(0.3 blur(2px));
   transform: scale(1.1);
+}
+
+.portfolio-card:hover .card-description {
+  opacity: 1;
+  transform: translateY(-50%);
 }
 
 .section {
