@@ -5,6 +5,18 @@ body {
   padding: 0;
 }
 
+footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
 .container-photos {
   max-width: 800px;
   position: relative;
@@ -21,6 +33,13 @@ body {
 img {
   width: 100%;
   vertical-align: middle;
+}
+
+.img-description {
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
 }
 
 .fade {
@@ -88,4 +107,11 @@ img {
   background-color: #a0d0c4;
   transform: scale(1.5);
   box-shadow: 0 0 8px rbga(255, 255, 255, 0.5);
+}
+
+.main-menu {
+  align-items: start;
+  width: 50px;
+  height: 50px;
+  display: block;
 }

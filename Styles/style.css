@@ -5,6 +5,18 @@ body {
   padding: 0;
 }
 
+footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
 .container {
   max-width: 400px;
   margin: 60px auto;

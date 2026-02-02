@@ -1,0 +1,29 @@
+body {
+  background-color: #253245;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.footer {
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.main-menu {
+  align-items: start;
+  width: 50px;
+  height: 50px;
+  display: block;
+}
+
+.content {
+  justify-content: center;
+}

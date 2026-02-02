@@ -1,9 +1,10 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="/Styles/protect-the-gifts-css.css" />
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Protect the gifts</title>
+    <link rel="stylesheet" href="/Styles/protect-the-gifts-css.css" />
     <link
       rel="icon"
       href="/Media/Portfolio/protect-the-gifts/protect-the-gifts.png"
@@ -11,39 +12,60 @@
     />
   </head>
   <body>
-    <div class="container-photos">
-      <!--Add as many images you want-->
-      <div class="slide fade">
+    <header>
+      <div class="main-menu">
+        <a href="../index.html">
+          <img src="../Media/Logos/LogotipoBlanco.png" alt="Menu" />
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <div class="container-photos">
+        <!--Add as many images you want-->
+        <div class="slide fade">
+          <img
+            src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-1.png"
+            alt="Principal"
+          />
+        </div>
+        <!--<figure class="slide fade">
         <img
           src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-1.png"
           alt="Principal"
         />
+        <figcaption class="img-description">hola</figcaption>
+      </figure>-->
+        <!--End of image-->
+
+        <!--Add as many images you want-->
+        <div class="slide fade">
+          <img
+            src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-2.png"
+            alt="Principal"
+          />
+        </div>
+        <!--End of image-->
+
+        <!--Add as many images you want-->
+        <div class="slide fade">
+          <img
+            src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-3.png"
+            alt="Principal"
+          />
+        </div>
+        <!--End of image-->
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
       </div>
-      <!--End of image-->
 
-      <!--Add as many images you want-->
-      <div class="slide fade">
-        <img
-          src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-2.png"
-          alt="Principal"
-        />
-      </div>
-      <!--End of image-->
+      <div id="dot-container" class="dot-indicators"></div>
+    </main>
 
-      <!--Add as many images you want-->
-      <div class="slide fade">
-        <img
-          src="../Media/Portfolio/protect-the-gifts/protect-the-gifts-3.png"
-          alt="Principal"
-        />
-      </div>
-      <!--End of image-->
-
-      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-      <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
-
-    <div id="dot-container" class="dot-indicators"></div>
+    <footer>
+      <p class="footer">Andrés Hernández - Lost Train Studio - Portfolio</p>
+    </footer>
 
     <script src="../JavaScrtips/protect-the-gifts.js"></script>
   </body>
