@@ -242,3 +242,7 @@ p {
     max-width: 250px;
   }
 }
+
+.ocultar {
+  display: none;
+}
