@@ -25,8 +25,9 @@ const videos = [
   {
     title: "Gyssa Quiz",
     id: "-zFJaNs5YEE",
-    client: "Gyssa",
-    description: "Un vistazo increíble a las cordilleras en invierno.",
+    client: "Gyssa & Salesforce",
+    description:
+      "An immersive VR 'Plank Challenge' designed for Gyssa and Salesforce, blending high-altitude thrills with interactive corporate training. Developed in Unity, the experience uses verticality and spatial UI to gamify a Salesforce Service Cloud quiz, forcing players to master technical concepts while navigating a high-stakes urban simulation. It represents a sophisticated fusion of psychological engagement, precise ray-cast interaction, and educational gamification.",
     thumb: getThumb("-zFJaNs5YEE"),
   },
   {
