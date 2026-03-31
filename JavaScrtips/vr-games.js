@@ -47,13 +47,36 @@ const videos = [
       "This experiece is a VR sports simulation where the player takes on the role of a soccer goalkeeper in a crowded stadium. Using physics-based hand tracking, the user must react to incoming penalty shots from an AI striker to defend the goal. The experience features a localized spatial UI with regional flags and dynamic visual feedback, such as screen tints to indicate successful goals or saves. The project demonstrates real-time collision detection and immersive environmental storytelling through animated crowds and digital stadium signage.",
     thumb: getThumb("TrNXwqgMYxE"),
   },
-
+  {
+    title: "Roller Coaster - Coorporativa Chorrotega",
+    id: "_r47Ywo7UqM",
+    client: "Coorporativa Chorrotega",
+    description:
+      "This immersive VR Roller Coaster base on a high-speed space-themed roller coaster where the user grabs items while in motion.",
+    thumb: getThumb("_r47Ywo7UqM"),
+  },
+  {
+    title: "Fruit Ninja",
+    id: "z2t0oQDkvHA",
+    client: "Kerns",
+    description:
+      "A vibrant, branded virtual reality game inspired by the 'Fruit Ninja' mechanics, featuring products from the brand Kern's. Players use dual katanas to slice through various fruits, that are tossed into the air against a colorful, floating island backdrop. Large 3D models of Kern's beverage cans, serve as prominent environmental elements, reinforcing the promotional theme. The interface includes a countdown timer, a point tracker, and a health system represented by three hearts at the top of the screen. As players successfully chain slices together, 'Combo' text and visual effects pop up to reward their accuracy and speed.",
+    thumb: getThumb("z2t0oQDkvHA"),
+  },
+  {
+    title: "Escape Room",
+    id: "vBZDbwWdZgs",
+    client: "Unitec",
+    description:
+      "This is a multiplayer VR escape room experience built in Unity, where players must collaborate to solve a series of complex puzzles to win their freedom. The project leverages Hand-Tracking technology for natural, controller-free interactions and integrates Photon (PUN2/Fusion) to handle the real-time networking and synchronized multiplayer state. By combining intuitive gesture-based mechanics with a shared virtual environment, players can physically manipulate objects and communicate in real-time, creating a highly immersive and social problem-solving experience.",
+    thumb: getThumb("vBZDbwWdZgs"),
+  },
   /*{
     title: "Video Title",
-    id: "Video ID",
+    id: "VideoID",
     client: "Client",
     description: "Description",
-    thumb: getThumb("Video ID"),
+    thumb: getThumb("VideoID"),
   },*/
 ];
 
