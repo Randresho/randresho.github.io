@@ -80,25 +80,23 @@ const videos = [
   },*/
 ];
 
+// ── State ─────────────────────────────────────────────
 let currentIndex = 0;
 let player;
+let hoverTimers = {}; // track per-item hover debounce
 
-var tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName("script")[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// ── Load YouTube IFrame API ───────────────────────────
+(function () {
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+})();
 
-const videoElem = document.getElementById("main-video");
-const titleElem = document.getElementById("video-title");
-const clientElem = document.getElementById("client");
-const descElem = document.getElementById("video-description");
-const playlistElem = document.getElementById("playlist-items");
-
+// ── Called by YouTube API when ready ─────────────────
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("player", {
-    height: "450",
-    width: "100%",
     videoId: videos[currentIndex].id,
+    playerVars: { rel: 0, modestbranding: 1 },
     events: {
       onReady: onPlayerReady,
       onStateChange: onPlayerStateChange,
@@ -106,72 +104,95 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-function onPlayerReady(event) {
+function onPlayerReady() {
   renderPlaylist();
-  updateText();
+  updateInfo();
 }
 
 function onPlayerStateChange(event) {
-  // YT.PlayerState.ENDED es igual a 0
-  if (event.data == YT.PlayerState.ENDED) {
+  if (event.data === YT.PlayerState.ENDED) {
     nextVideo();
   }
 }
 
+// ── Video navigation ──────────────────────────────────
 function nextVideo() {
-  currentIndex++;
-  if (currentIndex >= videos.length) currentIndex = 0;
+  currentIndex = (currentIndex + 1) % videos.length;
   loadVideo(currentIndex);
 }
 
-// 2. Función para cargar un video
 function loadVideo(index) {
   currentIndex = index;
-  const v = videos[index];
-
-  // Usamos el método de la API para cargar el nuevo video
-  player.loadVideoById(v.id);
-
-  updateText();
+  player.loadVideoById(videos[index].id);
+  updateInfo();
   renderPlaylist();
+  // Scroll player into view on mobile
+  document
+    .querySelector(".video-wrapper")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function updateText() {
+function updateInfo() {
   const v = videos[currentIndex];
-  document.getElementById("video-title").innerText = v.title;
-  document.getElementById("client").innerText = v.client;
-  document.getElementById("video-description").innerText = v.description;
+  document.getElementById("video-title").textContent = v.title;
+  document.getElementById("client").textContent = v.client;
+  document.getElementById("video-description").textContent = v.description;
 }
 
-// 3. Crear la lista visual a la derecha
+// ── Playlist rendering ────────────────────────────────
 function renderPlaylist() {
-  const playlistElem = document.getElementById("playlist-items");
-  playlistElem.innerHTML = "";
+  const container = document.getElementById("playlist-items");
+  container.innerHTML = "";
+
+  // Update heading with total count
+  document.getElementById("videos-heading").textContent =
+    `Videos (${videos.length})`;
+
   videos.forEach((video, index) => {
     const item = document.createElement("div");
     item.classList.add("playlist-item");
     if (index === currentIndex) item.classList.add("active");
 
-    item.innerHTML = `
-            <img src="${video.thumb}">
-            <h4>${video.title}</h4>
-            `;
-    //<p>${video.client}</p>
+    // Build preview embed URL (muted, autoplay on JS trigger)
+    const previewSrc =
+      `https://www.youtube.com/embed/${video.id}` +
+      `?autoplay=1&mute=1&controls=0&loop=1&playlist=${video.id}` +
+      `&modestbranding=1&rel=0&disablekb=1`;
 
-    item.onclick = () => loadVideo(index);
-    playlistElem.appendChild(item);
+    item.innerHTML = `
+      <div class="item-text">
+        <img src="${video.thumb}" alt="${video.title}" loading="lazy" />
+        <h4>${video.title}</h4>
+        <p class="item-client">${video.client}</p>
+      </div>
+    `;
+
+    // ── Hover preview logic ──────────────────────────
+    const iframe = item.querySelector("iframe");
+
+    item.addEventListener("mouseenter", () => {
+      // Debounce: only load after 300ms hover to avoid flicker on fast passes
+      hoverTimers[index] = setTimeout(() => {
+        if (!iframe.src) {
+          iframe.src = iframe.dataset.src; // lazy-load the iframe
+        }
+      }, 300);
+    });
+
+    item.addEventListener("mouseleave", () => {
+      clearTimeout(hoverTimers[index]);
+      // Reset iframe to stop playback without destroying the element
+      if (iframe.src) {
+        iframe.src = "";
+      }
+    });
+
+    // ── Click loads in main player ───────────────────
+    item.addEventListener("click", () => loadVideo(index));
+
+    container.appendChild(item);
   });
 }
-
-// 4. Evento: Cuando termine el video, pasar al siguiente
-videoElem.addEventListener("ended", () => {
-  let nextIndex = currentIndex + 1;
-  if (nextIndex >= videos.length) nextIndex = 0; // Reiniciar al primer video
-  loadVideo(nextIndex);
-});
-
-// Inicializar
-loadVideo(0);
 
 function getDirectLink(url) {
   return `https://www.youtube.com/embed/${url}?autoplay=1&rel=0`; // Si no es de Drive, lo deja igual
