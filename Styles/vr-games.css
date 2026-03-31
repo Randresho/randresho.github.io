@@ -44,6 +44,18 @@ footer {
   background: black;
 }
 
+#video-title {
+  color: #a0d0c4;
+}
+
+#client {
+  color: #dd8055;
+}
+
+#video-description {
+  color: white;
+}
+
 .playlist {
   flex: 1;
   background: #252525;
@@ -51,6 +63,7 @@ footer {
   border-radius: 8px;
   max-height: 80vh;
   overflow-y: auto;
+  color: white;
 }
 
 .playlist-item {
@@ -68,7 +81,7 @@ footer {
 
 .playlist-item.active {
   background: #4a4a4a;
-  border-left: 4px solid #00a8ff;
+  border-left: 4px solid #55b4ac;
 }
 
 .playlist-item img {
