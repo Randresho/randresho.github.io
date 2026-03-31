@@ -40,7 +40,7 @@ footer {
 }
 #main-video {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 28px;
   background: black;
 }
 
@@ -60,7 +60,7 @@ footer {
   flex: 1;
   background: #252525;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 18px;
   max-height: 80vh;
   overflow-y: auto;
   color: white;
@@ -92,6 +92,11 @@ footer {
 .playlist-item h4 {
   margin: 0;
   font-size: 14px;
+}
+
+.playlist-item p {
+  text-align: left;
+  font-size: 10px;
 }
 
 .video-wrapper {

@@ -8,10 +8,11 @@ const videos = [
     thumb: getThumb("cgTvly9-z4k"),
   },
   {
-    title: "Nueva Vida",
+    title: "Nueva Vida 3 experiece collection",
     id: "giI7peRFbCE",
     client: "Cooperativa Nueva Vida",
-    description: "Un vistazo increíble a las cordilleras en invierno.",
+    description:
+      "This immersive VR collection features three distinct mini-games fully powered by intuitive hand-tracking technology and integrated with a live online server to sync real-time data and aggregate total scores. The experience begins with an 'Object Rain' challenge, where players must use precise hand gestures to gather as many items as possible within a time limit. The second game puts a twist on the classic 'shell game'—after a series of chests are shuffled, the player must physically swim through the virtual environment to reach the correct one. Finally, the journey culminates in a high-speed space-themed roller coaster where the user grabs items while in motion. Upon completion, the system automatically transmits the cumulative score from all three games to the server, creating a seamless and competitive loop for the player.",
     thumb: getThumb("giI7peRFbCE"),
   },
   {
@@ -21,6 +22,14 @@ const videos = [
     description:
       "Transforming facility tours into a scalable digital experience, this application blends immersive 360° photography with interactive 3D elements. Users navigate through various departments via an intuitive spatial interface, experiencing smooth, high-definition transitions that mimic a physical walkthrough. This telepresence tool streamlines the onboarding process for new members, providing a comprehensive and engaging overview of the cooperative’s infrastructure and services.",
     thumb: getThumb("60DN1SSKt4k"),
+  },
+  {
+    title: "Nueva Vida Timeline interactive",
+    id: "7D5IfY2euGA",
+    client: "Cooperativa Nueva Vida",
+    description:
+      "This timeline experience VR prototype for Cooperativa Nueva Vida is a great look at how you're using Unity's storytelling tools to turn history into an interactive journey. By introducing a friendly, low-poly owl mascot as a guide, you've transformed what could have been a static list of dates into a dynamic experience where the user literally clicks through time. It’s a clever use of hand-tracking and spatial UI. The mix of character-driven dialogue and environmental shifts makes the organization's heritage feel much more tangible and engaging than a traditional presentation ever could.",
+    thumb: getThumb("7D5IfY2euGA"),
   },
   {
     title: "Gyssa Quiz",
@@ -123,7 +132,8 @@ function renderPlaylist() {
     item.innerHTML = `
             <img src="${video.thumb}">
             <h4>${video.title}</h4>
-        `;
+            `;
+    //<p>${video.client}</p>
 
     item.onclick = () => loadVideo(index);
     playlistElem.appendChild(item);
