@@ -71,6 +71,14 @@ const videos = [
       "This is a multiplayer VR escape room experience built in Unity, where players must collaborate to solve a series of complex puzzles to win their freedom. The project leverages Hand-Tracking technology for natural, controller-free interactions and integrates Photon (PUN2/Fusion) to handle the real-time networking and synchronized multiplayer state. By combining intuitive gesture-based mechanics with a shared virtual environment, players can physically manipulate objects and communicate in real-time, creating a highly immersive and social problem-solving experience.",
     thumb: getThumb("vBZDbwWdZgs"),
   },
+  {
+    title: "Whack a Moles",
+    id: "8mq2fYq7xu0",
+    client: "VR Studio",
+    description:
+      "Hit the Moles and win prizes in a retro arcade simulation, Using Meta Quest and Unity for developing ",
+    thumb: getThumb("8mq2fYq7xu0"),
+  },
   /*{
     title: "Video Title",
     id: "VideoID",
